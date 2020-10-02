@@ -24,16 +24,20 @@ $(document).ready(function() {
         })
 
         // if nothing is selected, show all 
-        if (!selectedFields.length) $('.chart-card').removeClass('hidden');
-        else { // else show charts that contain any of the selected fields
+        if (!selectedFields.length) {
+            $('.chart-card').removeClass('hidden');
+            $('.carousel').slick('slickUnfilter');
+        } else { // else show charts that contain any of the selected fields
             // hide everything first
             $('.chart-card').addClass('hidden');
+            $('.carousel').slick('slickUnfilter');
 
             // bring back selected fields
             $('.chart-card').filter(function(i, el) {
                 var fieldsUsed = $(el).attr('fields-used').split("|");
                 return fieldsUsed.filter(value => selectedFields.includes(value)).length > 0;
             }).removeClass('hidden');
+            $('.carousel').slick('slickFilter', ':not(.hidden)');
         }
     });
 
@@ -48,11 +52,19 @@ $(document).ready(function() {
     $('#star-switch').on('change', function(e) {
         var s = e.target;
         if (s.checked) {
-            // only show stars
+            // remove any filters first
+            $("#variable-select").val([]); 
+            $('select').trigger("chosen:updated");
+            $('.chart-card').removeClass('hidden');
+            $('.carousel').slick('slickUnfilter');
+
+            // then only show stars
             $(':not(.starred)').addClass('hidden');
+            $('.carousel').slick('slickFilter', '.starred');
         } else {
             // show all
             $('.chart-card').removeClass('hidden');
+            $('.carousel').slick('slickUnfilter');
         }
     });
 

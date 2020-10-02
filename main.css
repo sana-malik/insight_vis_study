@@ -96,9 +96,9 @@ coral-shell-content {
   color: #0a49bf;
 }
 
-.chart-card.hidden {
+/*.chart-card.hidden {
   display: none;
-}
+}*/
 
 coral-card-content {
   display: none;
